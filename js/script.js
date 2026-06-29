@@ -18,6 +18,12 @@
   const hamburger = el('#hamburger');
   const navMenu   = el('#nav-menu');
 
+  const closeMenu = () => {
+    hamburger.setAttribute('aria-expanded', 'false');
+    navMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
   hamburger.addEventListener('click', () => {
     const open = hamburger.getAttribute('aria-expanded') === 'true';
     hamburger.setAttribute('aria-expanded', String(!open));
@@ -25,20 +31,15 @@
     document.body.style.overflow = open ? '' : 'hidden';
   });
 
-  els('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-      hamburger.setAttribute('aria-expanded', 'false');
-      navMenu.classList.remove('open');
-      document.body.style.overflow = '';
-    });
-  });
+  els('.nav-link').forEach(link => link.addEventListener('click', closeMenu));
 
   document.addEventListener('click', (e) => {
-    if (!header.contains(e.target) && navMenu.classList.contains('open')) {
-      hamburger.setAttribute('aria-expanded', 'false');
-      navMenu.classList.remove('open');
-      document.body.style.overflow = '';
-    }
+    if (!header.contains(e.target) && navMenu.classList.contains('open')) closeMenu();
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navMenu.classList.contains('open')) closeMenu();
   });
 
   /* ── Smooth scroll ── */
@@ -177,52 +178,57 @@
       display: none;
       position: fixed;
       bottom: 0; left: 0; right: 0;
-      z-index: 90;
+      z-index: 95;
       background: #FAF6F1;
       border-top: 1px solid #D9C9B8;
-      padding: 0.75rem 1rem;
+      padding: 0.75rem 1rem env(safe-area-inset-bottom, 0);
       gap: 0.75rem;
-      box-shadow: 0 -4px 20px rgba(28,20,16,0.1);
+      box-shadow: 0 -4px 20px rgba(28,20,16,0.12);
       align-items: center;
       transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
     }
     @media (max-width: 640px) {
       .mobile-cta-bar { display: flex; }
-      body { padding-bottom: 68px; }
     }
     .mobile-cta-bar.hidden { transform: translateY(100%); }
     .mobile-cta-call {
       flex-shrink: 0;
-      display: flex; align-items: center;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
       font-family: 'Inter', system-ui, sans-serif;
       font-size: 0.7rem;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: #1C1410;
       border: 1.5px solid #D9C9B8;
       border-radius: 4px;
-      padding: 0.625rem 1rem;
+      padding: 0.75rem 1rem;
       text-decoration: none;
-      transition: all 200ms;
+      min-height: 48px;
+      transition: all 220ms;
     }
-    .mobile-cta-call:hover { border-color: #1C1410; }
+    .mobile-cta-call:active { background: #F0E9E0; }
     .mobile-cta-book {
       flex: 1;
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-family: 'Inter', system-ui, sans-serif;
       font-size: 0.7rem;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       background: #C4541A;
       color: #fff;
       border-radius: 4px;
-      padding: 0.625rem 1rem;
+      padding: 0.75rem 1rem;
       text-decoration: none;
-      transition: background 200ms;
+      min-height: 48px;
+      transition: background 220ms;
     }
-    .mobile-cta-book:hover { background: #D9703A; }
+    .mobile-cta-book:active { background: #A04313; }
   `;
   document.head.appendChild(mobileStyle);
 
