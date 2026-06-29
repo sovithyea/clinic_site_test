@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Phnom Penh Medical Centre — trusted general practice, specialist consultations, and preventive care for families, expats, and travellers in Cambodia." />
+  <title>Phnom Penh Medical Centre | Trusted Care Since 2009</title>
+
+  <!-- Preconnect for Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       1. FIXED NAVIGATION
+       ============================================================ -->
+  <header class="site-header" id="site-header" role="banner">
+    <nav class="nav-container" aria-label="Primary navigation">
+      <a href="#hero" class="nav-logo" aria-label="Phnom Penh Medical Centre — home">
+        <span class="logo-mark" aria-hidden="true">✦</span>
+        <span class="logo-text">PPMC</span>
+      </a>
+
+      <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul class="nav-links" id="nav-menu" role="list">
+        <li><a href="#services" class="nav-link">Services</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#doctors" class="nav-link">Our Doctors</a></li>
+        <li><a href="#testimonials" class="nav-link">Patients</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="tel:+85523456789" class="nav-phone" aria-label="Call us: +855 23 456 789">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+          +855 23 456 789
+        </a>
+        <a href="#booking-bar" class="btn btn-primary btn-sm">Book Appointment</a>
+      </div>
+    </nav>
+  </header>
+
+
+  <main>
+
+    <!-- ============================================================
+         2. HERO
+         ============================================================ -->
+    <section class="hero" id="hero" aria-labelledby="hero-heading">
+      <div class="hero-content animate-on-scroll">
+        <p class="hero-eyebrow">Phnom Penh Medical Centre</p>
+        <h1 id="hero-heading" class="hero-heading">
+          Care you can trust,<br />
+          <em>close to home.</em>
+        </h1>
+        <p class="hero-subtext">
+          General practice, specialist consultations, and preventive health — delivered with international standards and a deeply local understanding of your community.
+        </p>
+        <div class="hero-ctas">
+          <a href="#booking-bar" class="btn btn-primary">Book an Appointment</a>
+          <a href="#services" class="btn btn-ghost">Explore Services</a>
+        </div>
+
+        <div class="hero-stats" aria-label="Clinic highlights">
+          <div class="stat">
+            <span class="stat-number">15+</span>
+            <span class="stat-label">Years serving<br/>Phnom Penh</span>
+          </div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="stat">
+            <span class="stat-number">12</span>
+            <span class="stat-label">Qualified<br/>doctors</span>
+          </div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="stat">
+            <span class="stat-number">40k+</span>
+            <span class="stat-label">Patients<br/>treated</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-image-wrap" aria-hidden="true">
+        <img
+          src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=900&q=80&auto=format&fit=crop"
+          alt="Welcoming clinic consultation room"
+          class="hero-image"
+          loading="eager"
+          width="900"
+          height="700"
+        />
+        <div class="hero-image-badge">
+          <span class="badge-icon">🇰🇭</span>
+          <span>Trusted by families<br/>across Phnom Penh</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         3. BOOKING BAR
+         ============================================================ -->
+    <section class="booking-bar" id="booking-bar" aria-labelledby="booking-heading">
+      <div class="booking-inner">
+        <div class="booking-label">
+          <h2 id="booking-heading" class="booking-title">Book in under 30 seconds</h2>
+          <p class="booking-sub">Walk-ins welcome — appointments skip the queue.</p>
+        </div>
+
+        <form class="booking-form" id="booking-form" novalidate aria-label="Appointment booking form">
+          <div class="booking-field">
+            <label for="book-service" class="booking-field-label">Service</label>
+            <select id="book-service" name="service" required>
+              <option value="" disabled selected>Select a service</option>
+              <option value="gp">General Consultation</option>
+              <option value="specialist">Specialist Referral</option>
+              <option value="vaccination">Vaccination</option>
+              <option value="lab">Lab &amp; Blood Tests</option>
+              <option value="dental">Dental Check-up</option>
+              <option value="womens">Women's Health</option>
+            </select>
+          </div>
+
+          <div class="booking-field">
+            <label for="book-date" class="booking-field-label">Preferred Date</label>
+            <input type="date" id="book-date" name="date" required />
+          </div>
+
+          <div class="booking-field">
+            <label for="book-name" class="booking-field-label">Your Name</label>
+            <input type="text" id="book-name" name="name" placeholder="Full name" required autocomplete="name" />
+          </div>
+
+          <div class="booking-field">
+            <label for="book-phone" class="booking-field-label">Phone / WhatsApp</label>
+            <input type="tel" id="book-phone" name="phone" placeholder="+855 ..." required autocomplete="tel" />
+          </div>
+
+          <button type="submit" class="btn btn-amber booking-submit">
+            Confirm Booking
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </form>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         4. TRUST STRIP
+         ============================================================ -->
+    <section class="trust-strip" aria-label="Key clinic features">
+      <div class="container">
+        <ul class="trust-list" role="list">
+          <li class="trust-item animate-on-scroll">
+            <div class="trust-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+            <div>
+              <strong>4 Languages Spoken</strong>
+              <p>Khmer, English, French &amp; Mandarin</p>
+            </div>
+          </li>
+          <li class="trust-item animate-on-scroll" style="--delay: 0.1s">
+            <div class="trust-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/>
+              </svg>
+            </div>
+            <div>
+              <strong>Insurance Accepted</strong>
+              <p>AIA, CAMPU, Forte, MSO &amp; more</p>
+            </div>
+          </li>
+          <li class="trust-item animate-on-scroll" style="--delay: 0.2s">
+            <div class="trust-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <div>
+              <strong>Walk-ins Welcome</strong>
+              <p>No appointment needed for GP visits</p>
+            </div>
+          </li>
+          <li class="trust-item animate-on-scroll" style="--delay: 0.3s">
+            <div class="trust-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div>
+              <strong>Open 7 Days</strong>
+              <p>Mon–Sat 7am–8pm · Sun 8am–4pm</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         5. SERVICES
+         ============================================================ -->
+    <section class="services" id="services" aria-labelledby="services-heading">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <p class="section-eyebrow">What We Offer</p>
+          <h2 id="services-heading" class="section-heading">Comprehensive care,<br/>under one roof.</h2>
+          <p class="section-sub">From routine check-ups to specialist referrals — you won't need to navigate the city for answers.</p>
+        </div>
+
+        <div class="services-grid">
+
+          <!-- Featured card -->
+          <article class="service-card service-card--featured animate-on-scroll" aria-label="General Practice — featured service">
+            <div class="service-card-tag">Most Visited</div>
+            <div class="service-icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+              </svg>
+            </div>
+            <h3>General Practice</h3>
+            <p>Your first point of contact for any health concern. Our GPs manage chronic conditions, acute illness, referrals, and preventive care with continuity of care in mind.</p>
+            <a href="#booking-bar" class="service-link service-link--light">Book a GP Visit →</a>
+          </article>
+
+          <article class="service-card animate-on-scroll" style="--delay: 0.05s" aria-label="Vaccination and travel health">
+            <div class="service-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/>
+              </svg>
+            </div>
+            <h3>Vaccinations &amp; Travel Health</h3>
+            <p>Full adult and paediatric vaccination schedules. Travel health briefings and required immunisations for NGO workers and international travellers.</p>
+            <a href="#booking-bar" class="service-link">Book →</a>
+          </article>
+
+          <article class="service-card animate-on-scroll" style="--delay: 0.1s" aria-label="Lab and diagnostic testing">
+            <div class="service-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5h0c-1.4 0-2.5-1.1-2.5-2.5V2M8.5 2h7M6 14h12"/>
+              </svg>
+            </div>
+            <h3>Lab &amp; Diagnostics</h3>
+            <p>On-site blood panels, urinalysis, and rapid tests. Results within hours. Linked to accredited partner labs for complex diagnostics.</p>
+            <a href="#booking-bar" class="service-link">Book →</a>
+          </article>
+
+          <article class="service-card animate-on-scroll" style="--delay: 0.15s" aria-label="Women's health services">
+            <div class="service-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <circle cx="12" cy="8" r="6"/>
+                <path d="M12 14v6M9 18h6"/>
+              </svg>
+            </div>
+            <h3>Women's Health</h3>
+            <p>Cervical screening, contraception, ante- and postnatal referrals, menstrual health, and menopause management — in a private, respectful environment.</p>
+            <a href="#booking-bar" class="service-link">Book →</a>
+          </article>
+
+          <article class="service-card animate-on-scroll" style="--delay: 0.2s" aria-label="Paediatric and child health">
+            <div class="service-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </div>
+            <h3>Paediatric Care</h3>
+            <p>Growth monitoring, developmental checks, school medical certificates, and acute illness management for infants through teenagers.</p>
+            <a href="#booking-bar" class="service-link">Book →</a>
+          </article>
+
+          <article class="service-card animate-on-scroll" style="--delay: 0.25s" aria-label="Chronic disease management">
+            <div class="service-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="2" y="3" width="20" height="14" rx="2"/>
+                <path d="M8 21h8M12 17v4"/>
+              </svg>
+            </div>
+            <h3>Chronic Disease Management</h3>
+            <p>Structured care plans for diabetes, hypertension, asthma, and cardiovascular disease — coordinated between your GP and relevant specialists.</p>
+            <a href="#booking-bar" class="service-link">Book →</a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         6. ABOUT
+         ============================================================ -->
+    <section class="about" id="about" aria-labelledby="about-heading">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-image-wrap animate-on-scroll" aria-hidden="true">
+            <img
+              src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80&auto=format&fit=crop"
+              alt="Modern, welcoming clinic reception area"
+              class="about-image"
+              loading="lazy"
+              width="800"
+              height="600"
+            />
+            <div class="about-accent-card">
+              <p class="accent-number">2009</p>
+              <p class="accent-label">Founded in Phnom Penh</p>
+              <p class="accent-sub">Serving every arrondissement since day one.</p>
+            </div>
+          </div>
+
+          <div class="about-content animate-on-scroll" style="--delay: 0.15s">
+            <p class="section-eyebrow">Who We Are</p>
+            <h2 id="about-heading" class="section-heading">A clinic built on<br/><em>trust, not transactions.</em></h2>
+            <p class="about-text">
+              Phnom Penh Medical Centre was founded in 2009 by a Cambodian physician who spent a decade working in international hospitals and returned home with a clear vision: to make clinic-quality, evidence-based healthcare accessible to every resident of the capital — regardless of language, nationality, or insurance status.
+            </p>
+            <p class="about-text">
+              Fifteen years on, we remain independent, family-owned, and deeply committed to continuity of care. You'll see the same doctor at every visit. You'll be explained every test we order. And you'll never be rushed out the door.
+            </p>
+            <ul class="about-signals" aria-label="Trust signals">
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Registered with Cambodia Ministry of Health
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                All doctors hold internationally recognised qualifications
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Electronic health records — your history, always accessible
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Private consultation rooms, strict patient confidentiality
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                On-call emergency support for registered patients
+              </li>
+            </ul>
+            <a href="#doctors" class="btn btn-primary" style="margin-top:1.5rem">Meet Our Doctors</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         7. DOCTORS
+         ============================================================ -->
+    <section class="doctors" id="doctors" aria-labelledby="doctors-heading">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <p class="section-eyebrow">Our Team</p>
+          <h2 id="doctors-heading" class="section-heading">The people<br/>behind your care.</h2>
+        </div>
+
+        <div class="doctors-grid">
+
+          <article class="doctor-card animate-on-scroll">
+            <div class="doctor-image-wrap">
+              <img
+                src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&q=80&auto=format&fit=crop&face=true"
+                alt="Dr. Sophea Vann"
+                loading="lazy"
+                width="400"
+                height="400"
+              />
+            </div>
+            <div class="doctor-info">
+              <p class="doctor-specialty">General Practice</p>
+              <h3 class="doctor-name">Dr. Sophea Vann</h3>
+              <p class="doctor-bio">MBBS (Hanoi), FRACGP. Founder and Lead GP. Subspecialty in chronic disease management and preventive health. Consults in Khmer and English.</p>
+              <a href="#booking-bar" class="service-link">Book with Dr. Vann →</a>
+            </div>
+          </article>
+
+          <article class="doctor-card animate-on-scroll" style="--delay: 0.1s">
+            <div class="doctor-image-wrap">
+              <img
+                src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&q=80&auto=format&fit=crop&face=true"
+                alt="Dr. Claire Fontaine"
+                loading="lazy"
+                width="400"
+                height="400"
+              />
+            </div>
+            <div class="doctor-info">
+              <p class="doctor-specialty">Women's Health &amp; Obstetrics</p>
+              <h3 class="doctor-name">Dr. Claire Fontaine</h3>
+              <p class="doctor-bio">MD (Paris Descartes), Diploma in Tropical Medicine. 8 years in Cambodia. Consults in French and English. Special interest in expat maternal health.</p>
+              <a href="#booking-bar" class="service-link">Book with Dr. Fontaine →</a>
+            </div>
+          </article>
+
+          <article class="doctor-card animate-on-scroll" style="--delay: 0.2s">
+            <div class="doctor-image-wrap">
+              <img
+                src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400&q=80&auto=format&fit=crop&face=true"
+                alt="Dr. Dara Keo"
+                loading="lazy"
+                width="400"
+                height="400"
+              />
+            </div>
+            <div class="doctor-info">
+              <p class="doctor-specialty">Paediatrics</p>
+              <h3 class="doctor-name">Dr. Dara Keo</h3>
+              <p class="doctor-bio">MD (Royal University of Health Sciences), Fellowship in Paediatrics (Bangkok). Consults in Khmer, Mandarin, and English. Beloved by young patients and their families.</p>
+              <a href="#booking-bar" class="service-link">Book with Dr. Keo →</a>
+            </div>
+          </article>
+
+          <article class="doctor-card animate-on-scroll" style="--delay: 0.3s">
+            <div class="doctor-image-wrap">
+              <img
+                src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&q=80&auto=format&fit=crop&face=true"
+                alt="Dr. James Whitfield"
+                loading="lazy"
+                width="400"
+                height="400"
+              />
+            </div>
+            <div class="doctor-info">
+              <p class="doctor-specialty">Internal Medicine</p>
+              <h3 class="doctor-name">Dr. James Whitfield</h3>
+              <p class="doctor-bio">MBBS (Melbourne), FRACP. Specialist in cardiovascular and metabolic disease. Consults in English. Visiting specialist — Tuesdays and Thursdays.</p>
+              <a href="#booking-bar" class="service-link">Book with Dr. Whitfield →</a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         8. TESTIMONIALS
+         ============================================================ -->
+    <section class="testimonials" id="testimonials" aria-labelledby="testimonials-heading">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <p class="section-eyebrow">Patient Stories</p>
+          <h2 id="testimonials-heading" class="section-heading">What our patients say.</h2>
+        </div>
+
+        <div class="carousel-wrap">
+          <div class="carousel" id="carousel" role="region" aria-label="Patient testimonials" aria-live="polite">
+            <div class="carousel-track" id="carousel-track">
+
+              <article class="testimonial-card" role="listitem">
+                <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+                <blockquote>
+                  <p>"As a foreign resident, finding a clinic that communicates clearly in English was always stressful. PPMC changed that. Dr. Vann took 40 minutes for my first appointment — I've never felt more heard by a doctor."</p>
+                </blockquote>
+                <footer class="testimonial-author">
+                  <div class="author-avatar" aria-hidden="true">MS</div>
+                  <div>
+                    <strong>Maria Santos</strong>
+                    <span>NGO Project Coordinator, 3 years in Phnom Penh</span>
+                  </div>
+                </footer>
+              </article>
+
+              <article class="testimonial-card" role="listitem">
+                <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+                <blockquote>
+                  <p>"ខ្ញុំបានព្យាបាលជម្ងឺទឹកនោមផ្អែមនៅទីនេះអស់រយៈពេល ៥ ឆ្នាំ។ វេជ្ជបណ្ឌិតតាមដានខ្ញុំជារៀងរាល់ខែ ហើយខ្ញុំមានអារម្មណ៍ថាគ្លីនិកនេះដូចជាផ្ទះទីពីររបស់ខ្ញុំ។"</p>
+                  <p class="testimonial-translation">"I have been treated for diabetes here for 5 years. The doctor monitors me every month and I feel this clinic is like my second home."</p>
+                </blockquote>
+                <footer class="testimonial-author">
+                  <div class="author-avatar" aria-hidden="true">SR</div>
+                  <div>
+                    <strong>Sokha Ros</strong>
+                    <span>Local resident, Toul Kork</span>
+                  </div>
+                </footer>
+              </article>
+
+              <article class="testimonial-card" role="listitem">
+                <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+                <blockquote>
+                  <p>"I had a health emergency at 7pm on a Saturday. They stayed late to see me, ran bloods on-site, and had results within two hours. I was medically managed and home by 10pm. Extraordinary care."</p>
+                </blockquote>
+                <footer class="testimonial-author">
+                  <div class="author-avatar" aria-hidden="true">TH</div>
+                  <div>
+                    <strong>Tom Hadley</strong>
+                    <span>British traveller, passing through</span>
+                  </div>
+                </footer>
+              </article>
+
+              <article class="testimonial-card" role="listitem">
+                <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+                <blockquote>
+                  <p>"Dr. Keo has been our daughter's doctor since she was born. She's now four. He remembers every visit, every detail. That continuity is everything when you're raising children far from your family network."</p>
+                </blockquote>
+                <footer class="testimonial-author">
+                  <div class="author-avatar" aria-hidden="true">LW</div>
+                  <div>
+                    <strong>Linh &amp; Wei Zhang</strong>
+                    <span>Mandarin-speaking expat family</span>
+                  </div>
+                </footer>
+              </article>
+
+              <article class="testimonial-card" role="listitem">
+                <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+                <blockquote>
+                  <p>"I was anxious about going to a clinic in Cambodia. PPMC is cleaner than clinics I've visited in Europe. The staff are professional, kind, and incredibly patient. Completely changed my perception."</p>
+                </blockquote>
+                <footer class="testimonial-author">
+                  <div class="author-avatar" aria-hidden="true">AB</div>
+                  <div>
+                    <strong>Amélie Bertin</strong>
+                    <span>French development consultant</span>
+                  </div>
+                </footer>
+              </article>
+
+            </div>
+          </div>
+
+          <div class="carousel-controls" aria-label="Testimonial navigation">
+            <button class="carousel-btn" id="carousel-prev" aria-label="Previous testimonial">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div class="carousel-dots" id="carousel-dots" role="tablist" aria-label="Testimonial dots"></div>
+            <button class="carousel-btn" id="carousel-next" aria-label="Next testimonial">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         9. CONTACT
+         ============================================================ -->
+    <section class="contact" id="contact" aria-labelledby="contact-heading">
+      <div class="container">
+        <div class="contact-grid">
+
+          <div class="contact-details animate-on-scroll">
+            <p class="section-eyebrow">Find Us</p>
+            <h2 id="contact-heading" class="section-heading">Come and see us.</h2>
+
+            <ul class="contact-list" aria-label="Contact information">
+              <li>
+                <div class="contact-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div>
+                  <strong>Address</strong>
+                  <p>123 Norodom Blvd, Chamkarmon<br/>Phnom Penh 12302, Cambodia</p>
+                </div>
+              </li>
+              <li>
+                <div class="contact-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
+                <div>
+                  <strong>Phone &amp; WhatsApp</strong>
+                  <p><a href="tel:+85523456789">+855 23 456 789</a></p>
+                </div>
+              </li>
+              <li>
+                <div class="contact-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+                <div>
+                  <strong>Email</strong>
+                  <p><a href="mailto:hello@ppmc.com.kh">hello@ppmc.com.kh</a></p>
+                </div>
+              </li>
+              <li>
+                <div class="contact-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div>
+                  <strong>Opening Hours</strong>
+                  <p>Monday – Saturday: 7:00am – 8:00pm<br/>Sunday: 8:00am – 4:00pm<br/>Public Holidays: 9:00am – 1:00pm</p>
+                </div>
+              </li>
+            </ul>
+
+            <div class="contact-social">
+              <p class="contact-social-label">Find us online</p>
+              <div class="social-links">
+                <a href="#" class="social-link" aria-label="Facebook">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                  Facebook
+                </a>
+                <a href="#" class="social-link" aria-label="Telegram">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  Telegram
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-map animate-on-scroll" style="--delay: 0.15s" aria-label="Clinic location map placeholder">
+            <div class="map-placeholder">
+              <div class="map-pin" aria-hidden="true">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <p class="map-label">123 Norodom Blvd</p>
+              <p class="map-sub">Phnom Penh Medical Centre</p>
+              <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm">Open in Google Maps</a>
+              <p class="map-note">[ Google Maps embed to be inserted by client ]</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ============================================================
+       10. FOOTER
+       ============================================================ -->
+  <footer class="site-footer" role="contentinfo" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+
+        <div class="footer-brand">
+          <a href="#hero" class="nav-logo footer-logo" aria-label="Phnom Penh Medical Centre home">
+            <span class="logo-mark" aria-hidden="true">✦</span>
+            <span class="logo-text">PPMC</span>
+          </a>
+          <p class="footer-tagline">Trusted care for families, expats, and travellers in Phnom Penh since 2009.</p>
+          <p class="footer-reg">Ministry of Health Registration No. KH-MH-[PLACEHOLDER]<br/>All practitioners licensed with the Cambodian Medical Council.</p>
+        </div>
+
+        <nav class="footer-col" aria-label="Services footer links">
+          <h3 class="footer-col-heading">Services</h3>
+          <ul role="list">
+            <li><a href="#services">General Practice</a></li>
+            <li><a href="#services">Vaccinations &amp; Travel</a></li>
+            <li><a href="#services">Lab &amp; Diagnostics</a></li>
+            <li><a href="#services">Women's Health</a></li>
+            <li><a href="#services">Paediatric Care</a></li>
+            <li><a href="#services">Chronic Disease</a></li>
+          </ul>
+        </nav>
+
+        <nav class="footer-col" aria-label="Clinic footer links">
+          <h3 class="footer-col-heading">Clinic</h3>
+          <ul role="list">
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#doctors">Our Doctors</a></li>
+            <li><a href="#testimonials">Patient Stories</a></li>
+            <li><a href="#contact">Contact &amp; Hours</a></li>
+            <li><a href="#booking-bar">Book Appointment</a></li>
+          </ul>
+        </nav>
+
+        <nav class="footer-col" aria-label="Patients footer links">
+          <h3 class="footer-col-heading">For Patients</h3>
+          <ul role="list">
+            <li><a href="#">Insurance Information</a></li>
+            <li><a href="#">New Patient Registration</a></li>
+            <li><a href="#">Medical Records Request</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Emergency Contacts</a></li>
+          </ul>
+        </nav>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 Phnom Penh Medical Centre. All rights reserved.</p>
+        <p>Built with care for our community.</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ============================================================
+       SCROLL TO TOP
+       ============================================================ -->
+  <button class="scroll-top" id="scroll-top" aria-label="Scroll to top of page" hidden>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
