@@ -281,10 +281,10 @@
         current = Math.min(current, maxIndex());
         buildDots();
         track.style.transition = 'none';
-        track.style.transform = `translateX(-${getOffset()}px)`;
-        setTimeout(() => {
-          track.style.transition = '';
-        }, 50);
+        requestAnimationFrame(() => {
+          track.style.transform = `translateX(-${getOffset()}px)`;
+          requestAnimationFrame(() => { track.style.transition = ''; });
+        });
       }, 150);
     });
 
@@ -411,4 +411,98 @@
     dateInput.min = `${yyyy}-${mm}-${dd}`;
   }
 
+
+  /* ============================================================
+     10. MOBILE STICKY BOTTOM BAR
+     Injects a fixed "Book Appointment" bar on small screens
+     only — hides when booking bar is in view
+     ============================================================ */
+  const isMobile = () => window.innerWidth <= 640;
+
+  const mobileBar = document.createElement('div');
+  mobileBar.className = 'mobile-cta-bar';
+  mobileBar.setAttribute('aria-hidden', 'true'); // decorative duplicate
+  mobileBar.innerHTML = `
+    <a href="tel:+85523456789" class="mobile-cta-phone">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+      </svg>
+      Call
+    </a>
+    <a href="#booking-bar" class="mobile-cta-book btn btn-amber">Book Appointment</a>
+  `;
+  document.body.appendChild(mobileBar);
+
+  // Inject matching CSS via a style tag (keeps it co-located with the logic)
+  const mobileBarStyle = document.createElement('style');
+  mobileBarStyle.textContent = `
+    .mobile-cta-bar {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 90;
+      background: #fff;
+      border-top: 1px solid #D1D5DB;
+      padding: 0.75rem 1rem;
+      gap: 0.75rem;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.10);
+      align-items: center;
+    }
+    @media (max-width: 640px) {
+      .mobile-cta-bar {
+        display: flex;
+      }
+      /* Push page content above sticky bar */
+      body { padding-bottom: 72px; }
+    }
+    .mobile-cta-phone {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #1B4332;
+      border: 2px solid #1B4332;
+      border-radius: 6px;
+      padding: 0.625rem 1rem;
+      white-space: nowrap;
+      text-decoration: none;
+      flex-shrink: 0;
+      transition: background 200ms, color 200ms;
+    }
+    .mobile-cta-phone:hover,
+    .mobile-cta-phone:focus {
+      background: #1B4332;
+      color: #fff;
+    }
+    .mobile-cta-book {
+      flex: 1;
+      justify-content: center;
+      text-align: center;
+      border-radius: 6px;
+      padding: 0.625rem 1rem;
+    }
+    .mobile-cta-bar.hidden {
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .mobile-cta-bar:not(.hidden) {
+      transform: translateY(0);
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+  `;
+  document.head.appendChild(mobileBarStyle);
+
+  // Hide bar when booking section is in viewport
+  const bookingSection = el('#booking-bar');
+  if (bookingSection && 'IntersectionObserver' in window) {
+    const barObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        mobileBar.classList.toggle('hidden', entry.isIntersecting);
+      });
+    }, { threshold: 0.2 });
+    barObserver.observe(bookingSection);
+  }
 })();

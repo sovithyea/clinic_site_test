@@ -1399,6 +1399,7 @@ blockquote p {
    RESPONSIVE — TABLET (≤ 1024px)
    ============================================================ */
 @media (max-width: 1024px) {
+  /* Hero */
   .hero {
     grid-template-columns: 1fr;
     min-height: auto;
@@ -1432,6 +1433,7 @@ blockquote p {
     bottom: var(--space-lg);
   }
 
+  /* Booking */
   .booking-inner {
     grid-template-columns: 1fr;
     gap: var(--space-xl);
@@ -1445,18 +1447,22 @@ blockquote p {
     grid-column: span 2;
   }
 
+  /* Trust */
   .trust-list {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  /* Services */
   .services-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
   .service-card--featured {
     grid-row: span 1;
+    grid-column: span 2;
   }
 
+  /* About */
   .about-grid {
     grid-template-columns: 1fr;
     gap: var(--space-3xl);
@@ -1475,18 +1481,26 @@ blockquote p {
     bottom: var(--space-lg);
   }
 
+  /* Doctors */
   .doctors-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  /* Testimonials */
   .testimonial-card {
     flex: 0 0 calc(50% - var(--space-lg) / 2);
   }
 
+  /* Contact */
   .contact-grid {
     grid-template-columns: 1fr;
   }
 
+  .contact-map {
+    height: 320px;
+  }
+
+  /* Footer */
   .footer-grid {
     grid-template-columns: 1fr 1fr;
     gap: var(--space-2xl);
@@ -1502,35 +1516,63 @@ blockquote p {
    RESPONSIVE — MOBILE (≤ 640px)
    ============================================================ */
 @media (max-width: 640px) {
+  /* Token overrides */
   :root {
-    --space-5xl: 4rem;
-    --space-4xl: 3rem;
+    --nav-height:   60px;
+    --space-5xl:    3.5rem;
+    --space-4xl:    2.5rem;
+    --space-3xl:    2rem;
+    --space-2xl:    1.5rem;
+  }
+
+  /* Base */
+  section {
+    padding: var(--space-5xl) 0;
   }
 
   .container {
-    padding: 0 var(--space-md);
+    padding: 0 var(--space-lg);
   }
 
-  /* Nav */
+  .section-heading {
+    font-size: clamp(1.6rem, 6vw, 2rem);
+    margin-bottom: var(--space-md);
+  }
+
+  .section-sub {
+    font-size: var(--text-base);
+  }
+
+  .section-header {
+    margin-bottom: var(--space-2xl);
+  }
+
+  /* ── Nav ── */
   .hamburger {
     display: flex;
   }
 
+  .nav-container {
+    padding: 0 var(--space-lg);
+  }
+
+  /* Hide desktop nav links — replaced by mobile overlay */
   .nav-links {
     position: fixed;
     inset: var(--nav-height) 0 0;
-    background: rgba(240,244,239,0.98);
-    backdrop-filter: blur(12px);
+    background: rgba(240, 244, 239, 0.98);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     justify-content: flex-start;
-    padding: var(--space-2xl) var(--space-xl);
-    gap: var(--space-sm);
+    padding: var(--space-xl) var(--space-lg);
+    gap: 0;
     margin: 0;
     transform: translateY(-110%);
     transition: transform 0.35s var(--ease-out);
     z-index: 99;
-    border-bottom: 1px solid var(--clr-border);
+    overflow-y: auto;
   }
 
   .nav-links.open {
@@ -1539,76 +1581,327 @@ blockquote p {
 
   .nav-link {
     font-size: var(--text-lg);
-    padding: var(--space-md) var(--space-xl);
+    font-weight: 500;
+    padding: var(--space-lg) var(--space-md);
     width: 100%;
-    text-align: center;
+    text-align: left;
+    border-bottom: 1px solid var(--clr-border);
+    border-radius: 0;
   }
 
+  .nav-link::after {
+    display: none;
+  }
+
+  /* Show phone number inside mobile menu via a pinned CTA at bottom */
   .nav-actions {
     display: none;
   }
 
-  /* Hero */
+  /* Inject a book CTA at bottom of mobile menu */
+  .nav-links::after {
+    content: 'Call: +855 23 456 789';
+    display: block;
+    margin-top: var(--space-xl);
+    padding: var(--space-md);
+    text-align: center;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--clr-forest);
+    background: var(--clr-mint);
+    border-radius: var(--radius-md);
+  }
+
+  /* ── Hero ── */
   .hero {
-    padding: calc(var(--nav-height) + var(--space-2xl)) var(--space-md) var(--space-2xl);
+    padding: calc(var(--nav-height) + var(--space-xl)) var(--space-lg) var(--space-3xl);
+    gap: var(--space-2xl);
+    text-align: left;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.65rem;
+  }
+
+  .hero-heading {
+    font-size: clamp(2rem, 9vw, 2.8rem);
+    margin-bottom: var(--space-md);
+  }
+
+  .hero-subtext {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-xl);
+  }
+
+  .hero-ctas {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-sm);
+  }
+
+  .hero-ctas .btn {
+    justify-content: center;
+    padding: 0.875rem 1.5rem;
+    font-size: var(--text-base);
   }
 
   .hero-stats {
-    flex-wrap: wrap;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
     gap: var(--space-lg);
+    overflow-x: auto;
+    padding-bottom: var(--space-xs);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
 
-  .stat-divider {
+  .hero-stats::-webkit-scrollbar {
     display: none;
   }
 
-  /* Booking bar */
+  .stat-number {
+    font-size: var(--text-2xl);
+  }
+
+  .stat-divider {
+    display: block;
+    flex-shrink: 0;
+    height: 36px;
+  }
+
+  .hero-image-wrap {
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .hero-image {
+    height: 260px;
+    border-radius: var(--radius-md);
+  }
+
+  .hero-image-badge {
+    left: var(--space-md);
+    bottom: var(--space-md);
+    font-size: var(--text-xs);
+    padding: var(--space-sm) var(--space-md);
+    gap: var(--space-sm);
+  }
+
+  .badge-icon {
+    font-size: var(--text-lg);
+  }
+
+  /* ── Booking bar ── */
+  .booking-bar {
+    padding: var(--space-2xl) 0;
+  }
+
+  .booking-inner {
+    padding: 0 var(--space-lg);
+    gap: var(--space-lg);
+  }
+
+  .booking-title {
+    font-size: var(--text-xl);
+  }
+
   .booking-form {
     grid-template-columns: 1fr;
+    gap: var(--space-md);
   }
 
   .booking-submit {
     grid-column: span 1;
+    width: 100%;
+    justify-content: center;
+    padding: 0.875rem;
+    font-size: var(--text-base);
   }
 
-  /* Trust */
+  /* ── Trust strip ── */
+  .trust-strip {
+    padding: var(--space-2xl) 0;
+  }
+
   .trust-list {
-    grid-template-columns: 1fr;
-    gap: var(--space-xl);
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
   }
 
-  /* Services */
+  .trust-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+  }
+
+  .trust-item strong {
+    font-size: var(--text-sm);
+  }
+
+  .trust-item p {
+    font-size: var(--text-xs);
+  }
+
+  /* ── Services ── */
   .services-grid {
     grid-template-columns: 1fr;
+    gap: var(--space-md);
   }
 
-  /* Doctors */
+  .service-card--featured {
+    grid-column: span 1;
+  }
+
+  .service-card {
+    padding: var(--space-xl);
+  }
+
+  .service-icon {
+    width: 44px;
+    height: 44px;
+    margin-bottom: var(--space-md);
+  }
+
+  /* ── About ── */
+  .about-image {
+    height: 240px;
+    border-radius: var(--radius-md);
+  }
+
+  /* Accent card: pull it in-flow on mobile, no absolute */
+  .about-accent-card {
+    position: static;
+    margin-top: var(--space-md);
+    border-radius: var(--radius-md);
+    display: inline-flex;
+    gap: var(--space-lg);
+    align-items: center;
+    width: 100%;
+  }
+
+  .accent-number {
+    font-size: var(--text-3xl);
+    white-space: nowrap;
+  }
+
+  .about-content {
+    padding-top: 0;
+  }
+
+  /* ── Doctors ── */
   .doctors-grid {
     grid-template-columns: 1fr;
+    gap: var(--space-md);
   }
 
-  /* Testimonials */
+  /* Horizontal scrolling doctor cards on mobile */
+  .doctors-grid {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: var(--space-md);
+    padding-bottom: var(--space-md);
+    scrollbar-width: none;
+  }
+
+  .doctors-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .doctor-card {
+    flex: 0 0 78vw;
+    scroll-snap-align: start;
+  }
+
+  .doctor-image-wrap {
+    height: 220px;
+  }
+
+  .doctor-info {
+    padding: var(--space-lg);
+  }
+
+  /* ── Testimonials ── */
+  .testimonials {
+    padding: var(--space-5xl) 0;
+  }
+
   .testimonial-card {
-    flex: 0 0 85vw;
+    flex: 0 0 88vw;
+    padding: var(--space-xl);
   }
 
-  /* Footer */
+  .carousel-controls {
+    margin-top: var(--space-xl);
+  }
+
+  /* ── Contact ── */
+  .contact-map {
+    height: 260px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .map-placeholder {
+    border-radius: var(--radius-md);
+  }
+
+  .contact-list {
+    gap: var(--space-lg);
+  }
+
+  .contact-icon {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+  }
+
+  .social-links {
+    flex-wrap: wrap;
+  }
+
+  /* ── Footer ── */
+  .site-footer {
+    padding: var(--space-4xl) 0 var(--space-2xl);
+  }
+
   .footer-grid {
     grid-template-columns: 1fr;
+    gap: var(--space-xl);
   }
 
   .footer-brand {
     grid-column: span 1;
   }
 
+  .footer-col-heading {
+    margin-top: var(--space-lg);
+  }
+
   .footer-bottom {
     flex-direction: column;
     gap: var(--space-sm);
     text-align: center;
+    font-size: 0.65rem;
   }
 
-  /* Section heading size */
-  .section-heading {
-    font-size: var(--text-3xl);
+  /* ── Scroll to top ── */
+  .scroll-top {
+    bottom: var(--space-lg);
+    right: var(--space-lg);
+    width: 42px;
+    height: 42px;
+  }
+
+  /* ── Toast ── */
+  .toast {
+    bottom: var(--space-lg);
+    font-size: var(--text-xs);
+    padding: var(--space-sm) var(--space-lg);
+    max-width: calc(100vw - var(--space-3xl));
+    text-align: center;
+    white-space: normal;
   }
 }
