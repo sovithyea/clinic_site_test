@@ -1,57 +1,30 @@
 /* ============================================================
-   PHNOM PENH MEDICAL CENTRE — SCRIPT.JS
-   Vanilla JS — no libraries
-   Behaviours:
-     - Sticky nav with scroll shadow
-     - Mobile hamburger menu
-     - Testimonial carousel (scroll-snap + JS)
-     - AOS-style scroll-triggered fade animations
-     - Active nav link via IntersectionObserver
-     - Booking form validation + toast
-     - Smooth scroll offset by nav height
-     - Scroll-to-top button
+   SECRET CLINIC — SCRIPT.JS
    ============================================================ */
-
 (function () {
   'use strict';
 
-  /* ── Helpers ── */
   const el  = (sel, ctx = document) => ctx.querySelector(sel);
   const els = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
-  const NAV_HEIGHT = () =>
-    parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 72;
+  const NAV_H = () => parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 72;
 
-  /* ============================================================
-     1. STICKY NAV — shadow on scroll
-     ============================================================ */
+  /* ── Sticky nav ── */
   const header = el('#site-header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 10);
+  }, { passive: true });
 
-  const handleNavScroll = () => {
-    if (window.scrollY > 10) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
-  };
-
-  window.addEventListener('scroll', handleNavScroll, { passive: true });
-  handleNavScroll(); // Run on load
-
-
-  /* ============================================================
-     2. MOBILE HAMBURGER
-     ============================================================ */
+  /* ── Hamburger ── */
   const hamburger = el('#hamburger');
   const navMenu   = el('#nav-menu');
 
   hamburger.addEventListener('click', () => {
-    const expanded = hamburger.getAttribute('aria-expanded') === 'true';
-    hamburger.setAttribute('aria-expanded', String(!expanded));
+    const open = hamburger.getAttribute('aria-expanded') === 'true';
+    hamburger.setAttribute('aria-expanded', String(!open));
     navMenu.classList.toggle('open');
-    document.body.style.overflow = expanded ? '' : 'hidden';
+    document.body.style.overflow = open ? '' : 'hidden';
   });
 
-  // Close menu on link click
   els('.nav-link').forEach(link => {
     link.addEventListener('click', () => {
       hamburger.setAttribute('aria-expanded', 'false');
@@ -60,7 +33,6 @@
     });
   });
 
-  // Close on outside click
   document.addEventListener('click', (e) => {
     if (!header.contains(e.target) && navMenu.classList.contains('open')) {
       hamburger.setAttribute('aria-expanded', 'false');
@@ -69,216 +41,103 @@
     }
   });
 
-
-  /* ============================================================
-     3. SMOOTH SCROLL — offset by nav height
-     ============================================================ */
+  /* ── Smooth scroll ── */
   document.addEventListener('click', (e) => {
     const anchor = e.target.closest('a[href^="#"]');
     if (!anchor) return;
-
-    const targetId = anchor.getAttribute('href');
-    if (!targetId || targetId === '#') return;
-
-    const target = el(targetId);
+    const target = el(anchor.getAttribute('href'));
     if (!target) return;
-
     e.preventDefault();
-
-    const top = target.getBoundingClientRect().top + window.scrollY - NAV_HEIGHT();
-    window.scrollTo({ top, behavior: 'smooth' });
+    window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - NAV_H(), behavior: 'smooth' });
   });
 
-
-  /* ============================================================
-     4. AOS-STYLE SCROLL ANIMATIONS
-     ============================================================ */
-  const animatedEls = els('.animate-on-scroll');
-
+  /* ── Scroll animations ── */
   if ('IntersectionObserver' in window) {
-    const animObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          animObserver.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.12,
-      rootMargin: '0px 0px -40px 0px'
-    });
-
-    animatedEls.forEach(el => animObserver.observe(el));
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    els('.animate-on-scroll').forEach(el => obs.observe(el));
   } else {
-    // Fallback: show all immediately
-    animatedEls.forEach(el => el.classList.add('is-visible'));
+    els('.animate-on-scroll').forEach(el => el.classList.add('is-visible'));
   }
 
-
-  /* ============================================================
-     5. ACTIVE NAV LINK — IntersectionObserver
-     ============================================================ */
-  const sections = els('section[id], header[id]');
-  const navLinks = els('.nav-link');
-
-  const setActiveLink = (id) => {
-    navLinks.forEach(link => {
-      const href = link.getAttribute('href');
-      if (href === `#${id}`) {
-        link.classList.add('active');
-      } else {
-        link.classList.remove('active');
-      }
-    });
-  };
-
-  if ('IntersectionObserver' in window && sections.length) {
-    const navObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setActiveLink(entry.target.id);
+  /* ── Active nav ── */
+  const sections = els('section[id]');
+  if ('IntersectionObserver' in window) {
+    const navObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          els('.nav-link').forEach(l => l.classList.toggle('active', l.getAttribute('href') === `#${e.target.id}`));
         }
       });
-    }, {
-      rootMargin: `-${NAV_HEIGHT() + 20}px 0px -60% 0px`,
-      threshold: 0
-    });
-
-    sections.forEach(s => navObserver.observe(s));
+    }, { rootMargin: `-${NAV_H() + 20}px 0px -60% 0px` });
+    sections.forEach(s => navObs.observe(s));
   }
 
-
-  /* ============================================================
-     6. TESTIMONIAL CAROUSEL
-     ============================================================ */
+  /* ── Carousel ── */
   const track    = el('#carousel-track');
   const dotsWrap = el('#carousel-dots');
   const prevBtn  = el('#carousel-prev');
   const nextBtn  = el('#carousel-next');
 
-  if (track && dotsWrap) {
-    const cards         = els('.testimonial-card', track);
-    let current         = 0;
-    let autoplayTimer   = null;
-    let isAnimating     = false;
+  if (track) {
+    const cards = els('.testimonial-card', track);
+    let current = 0;
+    let autoTimer = null;
+    let busy = false;
 
-    // Detect how many cards to show per view
-    const getVisible = () => {
-      if (window.innerWidth <= 640) return 1;
-      if (window.innerWidth <= 1024) return 2;
-      return 3;
+    const getVisible = () => window.innerWidth <= 640 ? 1 : window.innerWidth <= 1024 ? 2 : 3;
+    const maxIdx = () => Math.max(0, cards.length - getVisible());
+    const getOffset = () => {
+      const gap = parseFloat(getComputedStyle(track).gap) || 24;
+      return (cards[0].getBoundingClientRect().width + gap) * current;
     };
 
-    const maxIndex = () => Math.max(0, cards.length - getVisible());
-
-    // Build dots
     const buildDots = () => {
       dotsWrap.innerHTML = '';
-      const total = maxIndex() + 1;
-      for (let i = 0; i < total; i++) {
-        const dot = document.createElement('button');
-        dot.className = 'carousel-dot' + (i === current ? ' active' : '');
-        dot.setAttribute('role', 'tab');
-        dot.setAttribute('aria-selected', String(i === current));
-        dot.setAttribute('aria-label', `Testimonial group ${i + 1}`);
-        dot.addEventListener('click', () => goTo(i));
-        dotsWrap.appendChild(dot);
+      for (let i = 0; i <= maxIdx(); i++) {
+        const d = document.createElement('button');
+        d.className = 'carousel-dot' + (i === current ? ' active' : '');
+        d.setAttribute('role', 'tab');
+        d.setAttribute('aria-label', `Slide ${i + 1}`);
+        d.addEventListener('click', () => { resetAuto(); goTo(i); });
+        dotsWrap.appendChild(d);
       }
     };
 
     const updateDots = () => {
-      els('.carousel-dot', dotsWrap).forEach((dot, i) => {
-        dot.classList.toggle('active', i === current);
-        dot.setAttribute('aria-selected', String(i === current));
-      });
+      els('.carousel-dot', dotsWrap).forEach((d, i) => d.classList.toggle('active', i === current));
     };
 
-    const getOffset = () => {
-      const card = cards[0];
-      if (!card) return 0;
-      const gap   = parseFloat(getComputedStyle(track).gap) || 24;
-      const width = card.getBoundingClientRect().width;
-      return (width + gap) * current;
-    };
-
-    const goTo = (index) => {
-      if (isAnimating) return;
-      isAnimating = true;
-
-      current = Math.max(0, Math.min(index, maxIndex()));
+    const goTo = (idx) => {
+      if (busy) return;
+      busy = true;
+      current = Math.max(0, Math.min(idx, maxIdx()));
       track.style.transform = `translateX(-${getOffset()}px)`;
       updateDots();
-
-      // Update button states
-      prevBtn.disabled = current === 0;
-      nextBtn.disabled = current === maxIndex();
-
-      setTimeout(() => { isAnimating = false; }, 520);
+      setTimeout(() => { busy = false; }, 520);
     };
 
-    const goNext = () => goTo(current + 1);
-    const goPrev = () => goTo(current - 1);
+    const startAuto = () => { autoTimer = setInterval(() => goTo(current >= maxIdx() ? 0 : current + 1), 5000); };
+    const resetAuto = () => { clearInterval(autoTimer); startAuto(); };
 
-    prevBtn.addEventListener('click', () => { resetAutoplay(); goPrev(); });
-    nextBtn.addEventListener('click', () => { resetAutoplay(); goNext(); });
+    prevBtn.addEventListener('click', () => { resetAuto(); goTo(current - 1); });
+    nextBtn.addEventListener('click', () => { resetAuto(); goTo(current + 1); });
 
-    // Autoplay
-    const startAutoplay = () => {
-      autoplayTimer = setInterval(() => {
-        if (current >= maxIndex()) {
-          goTo(0);
-        } else {
-          goNext();
-        }
-      }, 5000);
-    };
+    // Touch
+    let tx = 0, td = 0;
+    track.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchmove',  e => { td = e.touches[0].clientX - tx; }, { passive: true });
+    track.addEventListener('touchend',   () => { if (Math.abs(td) > 50) { resetAuto(); td < 0 ? goTo(current + 1) : goTo(current - 1); } });
 
-    const resetAutoplay = () => {
-      clearInterval(autoplayTimer);
-      startAutoplay();
-    };
+    track.parentElement.addEventListener('mouseenter', () => clearInterval(autoTimer));
+    track.parentElement.addEventListener('mouseleave', startAuto);
 
-    // Touch/swipe
-    let touchStartX = 0;
-    let touchDeltaX = 0;
-
-    track.addEventListener('touchstart', (e) => {
-      touchStartX = e.touches[0].clientX;
-      touchDeltaX = 0;
-    }, { passive: true });
-
-    track.addEventListener('touchmove', (e) => {
-      touchDeltaX = e.touches[0].clientX - touchStartX;
-    }, { passive: true });
-
-    track.addEventListener('touchend', () => {
-      if (Math.abs(touchDeltaX) > 50) {
-        resetAutoplay();
-        touchDeltaX < 0 ? goNext() : goPrev();
-      }
-    });
-
-    // Pause on hover
-    track.parentElement.addEventListener('mouseenter', () => clearInterval(autoplayTimer));
-    track.parentElement.addEventListener('mouseleave', startAutoplay);
-
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-      const carousel = el('#carousel');
-      if (!carousel) return;
-      const rect = carousel.getBoundingClientRect();
-      const inView = rect.top < window.innerHeight && rect.bottom > 0;
-      if (!inView) return;
-      if (e.key === 'ArrowLeft') { resetAutoplay(); goPrev(); }
-      if (e.key === 'ArrowRight') { resetAutoplay(); goNext(); }
-    });
-
-    // Resize handler — rebuild on viewport change
-    let resizeTimer;
+    let rTimer;
     window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        current = Math.min(current, maxIndex());
+      clearTimeout(rTimer);
+      rTimer = setTimeout(() => {
+        current = Math.min(current, maxIdx());
         buildDots();
         track.style.transition = 'none';
         requestAnimationFrame(() => {
@@ -288,221 +147,91 @@
       }, 150);
     });
 
-    // Init
     buildDots();
     goTo(0);
-    startAutoplay();
+    startAuto();
   }
 
-
-  /* ============================================================
-     7. BOOKING FORM VALIDATION + TOAST
-     ============================================================ */
-  const bookingForm = el('#booking-form');
-  const toast       = el('#toast');
-
-  const showToast = (message, type = 'success', duration = 4000) => {
-    toast.textContent = message;
-    toast.className = `toast toast--${type} show`;
-    clearTimeout(toast._timer);
-    toast._timer = setTimeout(() => {
-      toast.className = 'toast';
-    }, duration);
-  };
-
-  const validateField = (field) => {
-    const wrap = field.closest('.booking-field');
-    if (!wrap) return field.value.trim() !== '';
-
-    if (!field.value.trim()) {
-      wrap.classList.add('has-error');
-      return false;
-    }
-
-    // Phone: must be at least 8 digits
-    if (field.type === 'tel') {
-      const digits = field.value.replace(/\D/g, '');
-      if (digits.length < 8) {
-        wrap.classList.add('has-error');
-        return false;
-      }
-    }
-
-    wrap.classList.remove('has-error');
-    return true;
-  };
-
-  if (bookingForm) {
-    const fields = els('select, input', bookingForm);
-
-    // Live validation: clear error on input
-    fields.forEach(field => {
-      field.addEventListener('input', () => {
-        const wrap = field.closest('.booking-field');
-        if (wrap) wrap.classList.remove('has-error');
-      });
-    });
-
-    bookingForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      let valid = true;
-      fields.forEach(field => {
-        if (!validateField(field)) valid = false;
-      });
-
-      if (!valid) {
-        showToast('Please fill in all required fields.', 'error');
-
-        // Focus first invalid field
-        const firstInvalid = el('.has-error select, .has-error input', bookingForm);
-        if (firstInvalid) firstInvalid.focus();
-        return;
-      }
-
-      // Simulate submission
-      const submitBtn = el('.booking-submit', bookingForm);
-      const originalText = submitBtn.innerHTML;
-      submitBtn.textContent = 'Sending...';
-      submitBtn.disabled = true;
-
-      setTimeout(() => {
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-        bookingForm.reset();
-        showToast('✓ Appointment request sent! We\'ll confirm via WhatsApp shortly.', 'success', 5000);
-      }, 1400);
-    });
+  /* ── Scroll to top ── */
+  const scrollBtn = el('#scroll-top');
+  if (scrollBtn) {
+    window.addEventListener('scroll', () => {
+      scrollBtn.hidden = window.scrollY <= 500;
+    }, { passive: true });
+    scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   }
 
-
-  /* ============================================================
-     8. SCROLL TO TOP BUTTON
-     ============================================================ */
-  const scrollTopBtn = el('#scroll-top');
-
-  if (scrollTopBtn) {
-    const toggleScrollBtn = () => {
-      if (window.scrollY > 500) {
-        scrollTopBtn.hidden = false;
-      } else {
-        scrollTopBtn.hidden = true;
-      }
-    };
-
-    window.addEventListener('scroll', toggleScrollBtn, { passive: true });
-    toggleScrollBtn();
-
-    scrollTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
-
-
-  /* ============================================================
-     9. SET MIN DATE ON BOOKING DATE INPUT
-     ============================================================ */
-  const dateInput = el('#book-date');
-  if (dateInput) {
-    const today = new Date();
-    const yyyy  = today.getFullYear();
-    const mm    = String(today.getMonth() + 1).padStart(2, '0');
-    const dd    = String(today.getDate()).padStart(2, '0');
-    dateInput.min = `${yyyy}-${mm}-${dd}`;
-  }
-
-
-  /* ============================================================
-     10. MOBILE STICKY BOTTOM BAR
-     Injects a fixed "Book Appointment" bar on small screens
-     only — hides when booking bar is in view
-     ============================================================ */
-  const isMobile = () => window.innerWidth <= 640;
-
+  /* ── Mobile sticky CTA ── */
   const mobileBar = document.createElement('div');
   mobileBar.className = 'mobile-cta-bar';
-  mobileBar.setAttribute('aria-hidden', 'true'); // decorative duplicate
+  mobileBar.setAttribute('aria-hidden', 'true');
   mobileBar.innerHTML = `
-    <a href="tel:+85523456789" class="mobile-cta-phone">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
-      </svg>
-      Call
-    </a>
-    <a href="#booking-bar" class="mobile-cta-book btn btn-amber">Book Appointment</a>
+    <a href="tel:+85512345678" class="mobile-cta-call">Call Us</a>
+    <a href="https://t.me/secretclinic" target="_blank" rel="noopener" class="mobile-cta-book">Book via Telegram</a>
   `;
   document.body.appendChild(mobileBar);
 
-  // Inject matching CSS via a style tag (keeps it co-located with the logic)
-  const mobileBarStyle = document.createElement('style');
-  mobileBarStyle.textContent = `
+  const mobileStyle = document.createElement('style');
+  mobileStyle.textContent = `
     .mobile-cta-bar {
       display: none;
       position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      bottom: 0; left: 0; right: 0;
       z-index: 90;
-      background: #fff;
-      border-top: 1px solid #D1D5DB;
+      background: #FAF6F1;
+      border-top: 1px solid #D9C9B8;
       padding: 0.75rem 1rem;
       gap: 0.75rem;
-      box-shadow: 0 -4px 20px rgba(0,0,0,0.10);
+      box-shadow: 0 -4px 20px rgba(28,20,16,0.1);
       align-items: center;
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
     }
     @media (max-width: 640px) {
-      .mobile-cta-bar {
-        display: flex;
-      }
-      /* Push page content above sticky bar */
-      body { padding-bottom: 72px; }
+      .mobile-cta-bar { display: flex; }
+      body { padding-bottom: 68px; }
     }
-    .mobile-cta-phone {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: #1B4332;
-      border: 2px solid #1B4332;
-      border-radius: 6px;
-      padding: 0.625rem 1rem;
-      white-space: nowrap;
-      text-decoration: none;
+    .mobile-cta-bar.hidden { transform: translateY(100%); }
+    .mobile-cta-call {
       flex-shrink: 0;
-      transition: background 200ms, color 200ms;
+      display: flex; align-items: center;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #1C1410;
+      border: 1.5px solid #D9C9B8;
+      border-radius: 4px;
+      padding: 0.625rem 1rem;
+      text-decoration: none;
+      transition: all 200ms;
     }
-    .mobile-cta-phone:hover,
-    .mobile-cta-phone:focus {
-      background: #1B4332;
-      color: #fff;
-    }
+    .mobile-cta-call:hover { border-color: #1C1410; }
     .mobile-cta-book {
       flex: 1;
-      justify-content: center;
-      text-align: center;
-      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: #C4541A;
+      color: #fff;
+      border-radius: 4px;
       padding: 0.625rem 1rem;
+      text-decoration: none;
+      transition: background 200ms;
     }
-    .mobile-cta-bar.hidden {
-      transform: translateY(100%);
-      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
-    }
-    .mobile-cta-bar:not(.hidden) {
-      transform: translateY(0);
-      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
-    }
+    .mobile-cta-book:hover { background: #D9703A; }
   `;
-  document.head.appendChild(mobileBarStyle);
+  document.head.appendChild(mobileStyle);
 
-  // Hide bar when booking section is in viewport
-  const bookingSection = el('#booking-bar');
-  if (bookingSection && 'IntersectionObserver' in window) {
-    const barObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        mobileBar.classList.toggle('hidden', entry.isIntersecting);
-      });
-    }, { threshold: 0.2 });
-    barObserver.observe(bookingSection);
+  // Hide when contact section is visible
+  const contactSection = el('#contact');
+  if (contactSection && 'IntersectionObserver' in window) {
+    new IntersectionObserver((entries) => {
+      entries.forEach(e => mobileBar.classList.toggle('hidden', e.isIntersecting));
+    }, { threshold: 0.1 }).observe(contactSection);
   }
+
 })();
